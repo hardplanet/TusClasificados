@@ -19,7 +19,7 @@ namespace TusClasificados.Site.Models
         public ApplicationDbContext()
             : base("DefaultConnection")
         {
-            Database.SetInitializer(new MigrateDatabaseToLatestVersion<ApplicationDbContext, Configuration>());
+            //Database.SetInitializer(new MigrateDatabaseToLatestVersion<ApplicationDbContext, Configuration>());
             //Database.SetInitializer<ApplicationDbContext>(new DbInitializer());
         }
 
