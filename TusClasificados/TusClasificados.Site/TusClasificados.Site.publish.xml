@@ -1,0 +1,9 @@
+<publishData>
+  <publishProfile
+    publishUrl="https://imcarloseme-001-site1.smarterasp.net:8172/msdeploy.axd"
+    msdeploySite="imcarloseme-001-site1"
+    destinationAppUrl="http://imcarloseme-001-site1.smarterasp.net/"
+    profileName="Default Settings"
+    publishMethod="MSDeploy"
+    userName="ifc\imcarloseme-001" />
+</publishData>
