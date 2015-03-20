@@ -14,29 +14,17 @@ namespace TusClasificados.Site.Controllers
 {
     public abstract class BaseController : Controller
     {
-        protected ApplicationSignInManager _signInManager;
-        protected ApplicationUserManager _userManager;
+        private ApplicationUserManager _userManager;
+        private ApplicationSignInManager _signInManager;
 
         public BaseController()
         {
         }
 
-        public BaseController(ApplicationUserManager userManager, ApplicationSignInManager signInManager )
+        public BaseController(ApplicationUserManager userManager, ApplicationSignInManager signInManager)
         {
             UserManager = userManager;
             SignInManager = signInManager;
-        }
-
-        public ApplicationSignInManager SignInManager
-        {
-            get
-            {
-                return _signInManager ?? HttpContext.GetOwinContext().Get<ApplicationSignInManager>();
-            }
-            private set 
-            { 
-                _signInManager = value; 
-            }
         }
 
         public ApplicationUserManager UserManager
@@ -49,6 +37,15 @@ namespace TusClasificados.Site.Controllers
             {
                 _userManager = value;
             }
+        }
+
+        public ApplicationSignInManager SignInManager
+        {
+            get
+            {
+                return _signInManager ?? HttpContext.GetOwinContext().Get<ApplicationSignInManager>();
+            }
+            private set { _signInManager = value; }
         }
     }
 }

@@ -9,12 +9,22 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using TusClasificados.Site.Models;
+using TusClasificados.Site.Infrastructure.Services;
+using System.Collections.Generic;
+using TusClasificados.Site.Models.ViewModels;
 
 namespace TusClasificados.Site.Controllers
 {
     [Authorize]
     public class AccountController : BaseController
     {
+        private readonly ICuentasService _cuentasService;
+
+        public AccountController(ICuentasService cuentas)
+        {
+            _cuentasService = cuentas;
+         }
+
         //
         // GET: /Account/Login
         [AllowAnonymous]
@@ -76,13 +86,8 @@ namespace TusClasificados.Site.Controllers
                 if (result.Succeeded)
                 {
                     await SignInManager.SignInAsync(user, isPersistent:false, rememberBrowser:false);
+                    _cuentasService.AgregarTickets(TipoTicket.Bronze, 10, user);
                     
-                    // For more information on how to enable account confirmation and password reset please visit http://go.microsoft.com/fwlink/?LinkID=320771
-                    // Send an email with this link
-                    // string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
-                    // var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
-                    // await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
-
                     return RedirectToAction("Index", "Home");
                 }
                 AddErrors(result);
@@ -102,20 +107,60 @@ namespace TusClasificados.Site.Controllers
             return RedirectToAction("Index", "Home");
         }
 
+        //
+        // GET: /Account/ComprarTickets
+        public ActionResult ComprarTickets()
+        {
+            // Los precios están aquí,
+            // Se podría pasar esto a la base de datos,
+            // Y así ser configurable por el administrador.
+            return View(new ComprarTicketViewModel()
+            {
+                PrecioTicketBronze = 20,
+                PrecioTicketPlata = 50,
+                PrecioTicketOro = 85
+            });
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult ComprarTickets(ComprarTicketViewModel model)
+        {
+            if (!ModelState.IsValid)
+                return View(model);
+
+            var user = UserManager.FindByEmail(User.Identity.Name);
+
+            if(user == null)
+            {
+                ModelState.AddModelError("", "No se encontró el usuario, logueate de nuevo por favor.");
+            }
+
+            try
+            {
+                _cuentasService.AgregarTickets(model.TipoTicket, model.CantidadTickets, user);
+
+                return RedirectToAction("Index", "Home");
+            }
+            catch(Exception e)
+            {
+                ModelState.AddModelError("", "No se pudo procesar la compra, intenta luego nuevamente.");
+                return View(model);
+            }
+        }
+
         protected override void Dispose(bool disposing)
         {
             if (disposing)
             {
-                if (_userManager != null)
+                if (UserManager != null)
                 {
-                    _userManager.Dispose();
-                    _userManager = null;
+                    UserManager.Dispose();
                 }
 
-                if (_signInManager != null)
+                if (SignInManager != null)
                 {
-                    _signInManager.Dispose();
-                    _signInManager = null;
+                    SignInManager.Dispose();
                 }
             }
 

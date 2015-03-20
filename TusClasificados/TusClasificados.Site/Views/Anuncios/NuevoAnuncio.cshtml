@@ -1,0 +1,131 @@
+﻿@model TusClasificados.Site.Models.ViewModels.NuevoAnuncioViewModel
+@{
+    ViewBag.Title = "Nuevo Anuncio";
+}
+
+<h2>@ViewBag.Title</h2>
+<div class="row">
+    <div class="col-md-8">
+        @using(Html.BeginForm("NuevoAnuncio", "Anuncios", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+        {
+            @Html.HiddenFor(m => m.TicketsDisponibles.BronzeTickets, new { @id = "bronzeTicketsAvailable" })
+            @Html.HiddenFor(m => m.TicketsDisponibles.SilverTickets, new { @id = "silverTicketsAvailable" })
+            @Html.HiddenFor(m => m.TicketsDisponibles.GoldTickets, new { @id = "goldTicketsAvailable" })
+
+            @Html.AntiForgeryToken()
+            <h4>Ingresa los datos del anuncio</h4>
+            <hr />
+            @Html.ValidationSummary(false)
+            <div class="form-group">
+                @Html.LabelFor(m => m.Titulo, new { @class = "col-md-2 control-label" })
+                <div class="col-md-10">
+                    @Html.TextBoxFor(m => m.Titulo, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(m => m.Titulo, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(m => m.Precio, new { @class = "col-md-2 control-label" })
+                <div class="col-md-10">
+                    @Html.TextBoxFor(m => m.Precio, new { @class = "form-control", @type = "number" })
+                    @Html.ValidationMessageFor(m => m.Precio, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(m => m.NumeroContacto, new { @class = "col-md-2 control-label" })
+                <div class="col-md-10">
+                    @Html.TextBoxFor(m => m.NumeroContacto, new { @class = "form-control", @type = "number" })
+                    @Html.ValidationMessageFor(m => m.NumeroContacto, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(m => m.Detalles, new { @class = "col-md-2 control-label" })
+                <div class="col-md-10">
+                    @Html.TextAreaFor(m => m.Detalles, new { @class = "form-control", @rows = 3, maxlength = 200 })
+                    @Html.ValidationMessageFor(m => m.Detalles, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(m => m.ExtraDetalles, new { @class = "col-md-2 control-label" })
+                <div class="col-md-10">
+                    @Html.TextBoxFor(m => m.ExtraDetalles, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(m => m.ExtraDetalles, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(m => m.TicketUsar, new { @class = "col-md-2 control-label" })
+                <div class="col-md-10">
+                    @Html.DropDownListFor(m => m.TicketUsar, EnumHelper.GetSelectList(typeof(TusClasificados.Site.Models.TipoTicket)), "Selecciona el tipo de ticket", new { @class = "form-control", @id = "tipoTicket" })
+                    @Html.ValidationMessageFor(m => m.TicketUsar, "", new { @class = "text-danger" })
+                </div>
+                <div class="col-md-10" id="numeroTickets">
+                    <label id="nTickets"></label>
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(m => m.FechasAnuncio, new { @class = "col-md-2 control-label" })
+                <div class="col-md-10">
+                    @Html.TextBoxFor(m => m.FechasAnuncio, new { @id = "datepicker", @class = "form-control" })
+                    @Html.ValidationMessageFor(m => m.FechasAnuncio, "", new { @class = "text-danger" })
+                </div>
+                <div class="col-md-10" id="numeroTickets">
+                    <label id="nTickets"></label>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    <input type="submit" value="Enviar" class="btn btn-default btn-block" />
+                </div>
+            </div>
+        
+        }
+    </div>
+</div>
+
+@section scripts{
+    <script type="text/javascript">
+        $(document).ready(function () {
+            
+
+            actualizarTicketsLabel();
+
+            $('#tipoTicket').change(function () {
+                actualizarTicketsLabel();
+            });
+        });
+
+        var actualizarTicketsLabel = function () {
+            $('#nTickets').hide();
+            $('#datepicker')
+                .fadeOut()
+                .val('')
+                .multiDatesPicker('destroy');
+
+            var tipo = $('#tipoTicket').val();
+            var resultado;
+            var tickets;
+
+            if (tipo == 0) {
+                tickets = $('#bronzeTicketsAvailable').val();
+                resultado = "Tienes " + tickets + " tickets Bronze disponibles.";
+            } else if (tipo == 1) {
+                tickets = $('#silverTicketsAvailable').val();
+                resultado = "Tienes " + tickets + " tickets Plata disponibles.";
+            } else if (tipo == 2) {
+                tickets = $('#goldTicketsAvailable').val();
+                resultado = "Tienes " + tickets + " tickets Oro disponibles.";
+            }
+
+            var today = new Date();
+            console.log(today.toString());
+            $('#datepicker').multiDatesPicker({
+                maxPicks: tickets,
+                minDate: 0
+            })
+                .fadeIn();
+
+            $('#nTickets').text(resultado).show();
+        }
+    </script>
+}
+
+

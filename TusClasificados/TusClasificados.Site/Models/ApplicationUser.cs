@@ -11,9 +11,14 @@ namespace TusClasificados.Site.Models
 {
     public class ApplicationUser : IdentityUser
     {
+        public ApplicationUser()
+        {
+        }
+
         public String Nombre { get; set; }
         public String Apellido { get; set; }
-        public TipoCuenta TipoCuenta { get; set; }
+
+        public virtual List<Ticket> Tickets { get; set; }
 
         public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<ApplicationUser> manager)
         {
@@ -24,10 +29,4 @@ namespace TusClasificados.Site.Models
         }
     }
 
-    public enum TipoCuenta
-    {
-        Bronze,
-        Plata,
-        Oro
-    }
 }

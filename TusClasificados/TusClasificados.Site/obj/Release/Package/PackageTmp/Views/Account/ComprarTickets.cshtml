@@ -1,0 +1,74 @@
+﻿@model TusClasificados.Site.Models.ViewModels.ComprarTicketViewModel
+@{
+    ViewBag.Title = "Comprar Tickets";
+}
+
+<div class="container-fluid">
+    <h3>Comprar nuevos tickets</h3>
+    <hr />
+    @using (Html.BeginForm("ComprarTickets", "Account", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+    {
+        @Html.AntiForgeryToken();
+        @Html.HiddenFor(m => m.PrecioTicketBronze, new { @id = "bronzeTicketsPrice" })
+        @Html.HiddenFor(m => m.PrecioTicketPlata, new { @id = "silverTicketsPrice" })
+        @Html.HiddenFor(m => m.PrecioTicketOro, new { @id = "goldTicketsPrice" })
+        @Html.ValidationSummary(false);
+        <div class="form-group">
+            @Html.LabelFor(m => m.TipoTicket, new { @class = "col-md-2 control-label" })
+            <div class="col-md-10">
+                @Html.DropDownListFor(m => m.TipoTicket, EnumHelper.GetSelectList(typeof(TusClasificados.Site.Models.TipoTicket)), "Selecciona el tipo de ticket", new { @class = "form-control", @id = "tipoTicket" })
+                @Html.ValidationMessageFor(m => m.TipoTicket, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(m => m.CantidadTickets, new { @class = "col-md-2 control-label" })
+            <div class="col-md-10">
+                @Html.TextBoxFor(m => m.CantidadTickets, new { @class = "form-control", @type = "number", @id = "cantidadTickets" })
+                @Html.ValidationMessageFor(m => m.CantidadTickets, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <label id="precioTotal"></label>
+        <div class="clearfix"></div>
+        <hr /><br />
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Comprar" class="btn btn-primary btn-block" />
+            </div>
+        </div>
+    }
+</div>
+
+@section scripts{
+    <script type="text/javascript">
+        $(document).ready(function () {
+            cantidadAPagar();
+
+            $('#tipoTicket').change(function () {
+                cantidadAPagar();
+            });
+
+            $('#cantidadTickets').change(function () {
+                cantidadAPagar();
+            });
+        });
+
+        var cantidadAPagar = function () {
+            var cantidadTickets = $('#cantidadTickets').val();
+            var precioOro = $('#goldTicketsPrice').val();
+            var precioPlata = $('#silverTicketsPrice').val();
+            var precioBronze = $('#bronzeTicketsPrice').val();
+
+            var tipo = $('#tipoTicket').val();
+            var result;
+            if (tipo == 0) {
+                result = precioBronze * cantidadTickets;
+            } else if (tipo == 1) {
+                result = precioPlata * cantidadTickets;
+            } else if (tipo == 2) {
+                result = precioOro * cantidadTickets;
+            }
+
+            $('#precioTotal').text("Total a pagar: " + result + " Bs");
+        }
+    </script>
+}

@@ -52,4 +52,11 @@ C:\Users\Carlos\documents\visual studio 2013\Projects\TusClasificados\TusClasifi
 C:\Users\Carlos\documents\visual studio 2013\Projects\TusClasificados\TusClasificados.Site\bin\Microsoft.Owin.Security.MicrosoftAccount.xml
 C:\Users\Carlos\documents\visual studio 2013\Projects\TusClasificados\TusClasificados.Site\obj\Debug\TusClasificados.Site.dll
 C:\Users\Carlos\documents\visual studio 2013\Projects\TusClasificados\TusClasificados.Site\obj\Debug\TusClasificados.Site.pdb
+C:\Users\Carlos\documents\visual studio 2013\Projects\TusClasificados\TusClasificados.Site\bin\Ninject.dll
+C:\Users\Carlos\documents\visual studio 2013\Projects\TusClasificados\TusClasificados.Site\bin\Ninject.Web.Common.dll
+C:\Users\Carlos\documents\visual studio 2013\Projects\TusClasificados\TusClasificados.Site\bin\Ninject.Web.Mvc.dll
+C:\Users\Carlos\documents\visual studio 2013\Projects\TusClasificados\TusClasificados.Site\bin\WebActivatorEx.dll
+C:\Users\Carlos\documents\visual studio 2013\Projects\TusClasificados\TusClasificados.Site\bin\Ninject.xml
+C:\Users\Carlos\documents\visual studio 2013\Projects\TusClasificados\TusClasificados.Site\bin\Ninject.Web.Common.xml
+C:\Users\Carlos\documents\visual studio 2013\Projects\TusClasificados\TusClasificados.Site\bin\Ninject.Web.Mvc.xml
 C:\Users\Carlos\documents\visual studio 2013\Projects\TusClasificados\TusClasificados.Site\obj\Debug\TusClasificados.Site.csprojResolveAssemblyReference.cache

@@ -13,9 +13,8 @@ namespace TusClasificados.Site.Models.ViewModels
         public String NumeroContacto { get; set; }
         public String Precio { get; set; }
         public String ExtraDetalles { get; set; }
-        public DateTime FechaPublicacion { get; set; }
         public String NombreAnunciante { get; set; }
-        public TipoCuenta TipoCuenta { get; set; }
+        public TipoTicket TipoAnuncio { get; set; }
     }
 
     public class NuevoAnuncioViewModel
@@ -33,5 +32,20 @@ namespace TusClasificados.Site.Models.ViewModels
         [Required(ErrorMessage = "Este campo es obligatorio")]
         [Display(Name="Información extra")]
         public String ExtraDetalles { get; set; }
+        [Required(ErrorMessage = "Debes especificar el tipo de ticket que vas a utilizar")]
+        [Display(Name="Tipo de ticket a usar")]
+        public TipoTicket TicketUsar { get; set; }
+        [Required(ErrorMessage="Debes especificar al menos una fecha para el anuncio")]
+        [Display(Name="Fechas para anunciar")]
+        public String FechasAnuncio { get; set; }
+
+        public TicketCountViewModel TicketsDisponibles { get; set; }
+    }
+
+    public class TicketCountViewModel
+    {
+        public int BronzeTickets { get; set; }
+        public int SilverTickets { get; set; }
+        public int GoldTickets { get; set; }
     }
 }

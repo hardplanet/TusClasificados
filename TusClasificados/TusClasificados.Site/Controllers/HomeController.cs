@@ -9,77 +9,43 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using TusClasificados.Site.Models;
+using TusClasificados.Site.Infrastructure.Services;
 
 namespace TusClasificados.Site.Controllers
 {
     public class HomeController : BaseController
     {
-        private readonly RepositorioGenerico<Anuncio> _repoAnuncios;
+        private readonly IAnunciosService _anunciosService;
+        private readonly ICuentasService _cuentasService;
+        private readonly IReloj _reloj;
 
-        public HomeController()
+        public HomeController(IAnunciosService anuncios, ICuentasService cuentas, IReloj reloj)
         {
-            _repoAnuncios = new RepositorioGenerico<Anuncio>(ApplicationDbContext.GetDBContext());
+            _anunciosService = anuncios;
+            _cuentasService = cuentas;
+            _reloj = reloj;
         }
 
-        public ActionResult Index()
+        public ActionResult Index() 
         {
-            var model = _repoAnuncios.SelectAll()
-                .OrderByDescending(anuncio => anuncio.Anunciante.TipoCuenta)
+            var todayDate = _reloj.Now;
+
+            var model = _anunciosService.GetAllForDate(todayDate)
+                .OrderByDescending(anuncio => anuncio.TipoTicketUsado)
                 .Select(anuncio => new AnuncioViewModel()
                 {
                     Titulo = anuncio.Titulo,
                     Detalles = anuncio.Detalles,
                     ExtraDetalles = anuncio.ExtraDetalles,
                     NumeroContacto = anuncio.NumeroTelefono,
-                    FechaPublicacion = anuncio.FechaCreacion,
                     NombreAnunciante = String.Format("{0} {1}", anuncio.Anunciante.Nombre, anuncio.Anunciante.Apellido),
                     Precio = anuncio.Precio.ToString(".00"),
-                    TipoCuenta = anuncio.Anunciante.TipoCuenta
+                    TipoAnuncio = anuncio.TipoTicketUsado
                 })
                 .ToList();
 
             return View(model);
         }
-
-        [HttpGet]
-        [Authorize]
-        public ActionResult NuevoAnuncio()
-        {
-            return View();
-        }
-
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        [Authorize]
-        public ActionResult NuevoAnuncio(NuevoAnuncioViewModel model)
-        {
-            if (!ModelState.IsValid)
-                return View(model);
-
-            var user = UserManager.FindByEmail(User.Identity.GetUserName());
-            var nuevoAnuncio = new Anuncio()
-            {
-                Titulo = model.Titulo,
-                Detalles = model.Detalles,
-                ExtraDetalles = model.ExtraDetalles,
-                NumeroTelefono = model.NumeroContacto,
-                Precio = model.Precio,
-                Anunciante = user
-            };
-
-            try
-            {
-                _repoAnuncios.Insert(nuevoAnuncio);
-                _repoAnuncios.Save();
-
-                return RedirectToAction("Index");
-            }
-            catch(Exception e)
-            {
-                ModelState.AddModelError("", "Ha ocurrido un error, intenta luego nuevamente.");
-                return View(model);
-            }
-        }
-
+             
     }
 }
