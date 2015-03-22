@@ -4,7 +4,13 @@
 @{
     ViewBag.Title = "Inicio";
 }
-
+<header>
+        <div class="container">
+            <div class="intro-text">
+                <div class="intro-lead-in">Aqui la imahen de la captura</div>
+            </div>
+        </div>
+    </header>
 <div class="container-fluid">
     @foreach (var fila in Model.Partition(3))
     {
