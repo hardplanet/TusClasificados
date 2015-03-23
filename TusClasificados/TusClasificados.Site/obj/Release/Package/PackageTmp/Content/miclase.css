@@ -1,0 +1,59 @@
+.miclase {
+
+  
+  background-color: #1b3c77;
+  background-image:url(../Content/fondo.png);
+  background-size:1100px auto;
+  background-position-x:center;
+  background-position-y:center;
+  height: 450px;
+  background-repeat:no-repeat;
+
+}
+
+
+
+.micontainer  {
+  background-image:url(../Content/map-image.png);
+  border-bottom-color:#cdd3f1;
+  height: 500px;
+  color: inherit;
+  background-color: #1b3c77;
+  background-position-x:center;
+  background-position-y:center;
+}
+
+.miboton {
+
+  margin: 30px auto;
+  background-color: #000000;
+  font-family:Calibri;
+  font-weight:900;
+  color:#ffffff;
+  height:70px;
+  width:250px;
+}
+
+.titulo {
+ 
+  color: #ffffff;
+  margin-bottom: 50px;
+
+}
+
+.subtitulo {
+ 
+  color: #ffffff;
+  margin-bottom:40px;
+}
+
+.caja {
+
+    margin: 25px auto 25px auto;   
+
+}
+.supercaja {
+
+
+
+}
