@@ -1,12 +1,13 @@
 .miclase {
 
   
-  background-color: #1b3c77;
+  background-color: #eeeeee;
   background-image:url(../Content/fondo.png);
   background-size:1100px auto;
   background-position-x:center;
   background-position-y:center;
   height: 450px;
+  width: 1170px;
   background-repeat:no-repeat;
 
 }
@@ -16,7 +17,7 @@
 .micontainer  {
   background-image:url(../Content/map-image.png);
   border-bottom-color:#cdd3f1;
-  height: 500px;
+  height: 600px;
   color: inherit;
   background-color: #1b3c77;
   background-position-x:center;
@@ -47,13 +48,27 @@
   margin-bottom:40px;
 }
 
+
 .caja {
 
-    margin: 25px auto 25px auto;   
+    margin-top:25px;
+    margin-bottom: 25px;
+    
+
+} 
+
+input.caja {
+    
+    margin-left:auto;
+    margin-right:0px;
+    max-width:80%;
+    height: 60px;
 
 }
-.supercaja {
 
+textarea.supercaja {
 
-
+  max-width: 80%;
+  min-height:230px;
+  
 }
