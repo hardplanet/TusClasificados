@@ -8,14 +8,14 @@
   background-position-y:center;
   height: 450px;
   background-repeat:no-repeat;
-
+  margin-top: -22px;
 }
 
 
 
 .micontainer  {
   background-image:url(../Content/map-image.png);
-  border-bottom-color:#cdd3f1;
+  border-bottom-color:#17375e;
   height: 500px;
   color: inherit;
   background-color: #1b3c77;
